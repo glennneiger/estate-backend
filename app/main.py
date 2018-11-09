@@ -1,6 +1,6 @@
 #! /usr/bin/env python3 
 
-from flask import Flask, request
+from flask import Flask, request, make_response, jsonify
 
 app = Flask(__name__)
 
@@ -8,6 +8,6 @@ app = Flask(__name__)
 @app.route("/", methods=["POST", "GET"])
 def hello():
     if request.method == "POST":
-        return "Nothing to post!\n"
+        return jsonify({'fulfillmentText': "post received"})
     else:
-        return "Hello World!\n"
+        return jsonify({'fulfillmentText': "get received"})
