@@ -89,7 +89,9 @@ def show_city(parameters, context):
     template = "{}"
     return template.format(result)
 
-def show_within_price(parameters, context):
+def show_within_price(parameters, contexts):
+    context = list(filter(lambda x: "show_all-city-followup" in x["name"], contexts))[0]
+
     city = context["parameters"]["geo-city"]
     numbers = parameters["number"]
 
@@ -106,12 +108,7 @@ def show_within_price(parameters, context):
     return template.format(df_result.shape[0], price_min, price_max, city)
 
 def list_house(parameters, contexts):
-    context = None
-
-    for each in contexts:
-        if "show_all-city-followup" in each["name"]:
-            context = each
-            break
+    context = list(filter(lambda x: "show_all-city-followup" in x["name"], contexts))[0]
 
     prices = context["parameters"]["number"]
     city = context["parameters"]["geo-city"]
