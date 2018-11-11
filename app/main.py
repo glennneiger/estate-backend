@@ -144,8 +144,8 @@ def dispatch(intent):
 app = Flask(__name__)
 
 # Load data
-path_data = "./houses.csv"
-path_data = os.path.abspath(path_data)
+path_data = "houses.csv"
+path_data = os.path.abspath(os.path.dirname(__file__)) + "/" + path_data
 df_data = load_df(path_data)
 
 @app.route("/", methods=["POST", "GET"])
