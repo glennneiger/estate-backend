@@ -69,18 +69,13 @@ def show_all(parameters, context):
     1. number of avaliable houses
     2. List attributes
     """
-    avaliable_columns = set(['CITY', 'PRICE', 'SQUARE FEET', 'YEAR BUILT'])
-
     # template for response
-    template_response = "Hello! There are currently {} houses on list. Their avaliable attributes are: {}. Which city are you interested in?"
-
-    # convert columns into string
-    str_columns = set_to_string(avaliable_columns)
+    template_response = "Hello! There are currently {} houses on list. Which city are you interested in?"
 
     # numbe of houses listed
     total_num = df_data.shape[0]
 
-    return template_response.format(total_num, str_columns)
+    return template_response.format(total_num)
 
 def show_city(parameters, context):
     city = parameters["geo-city"]
@@ -110,7 +105,14 @@ def show_within_price(parameters, context):
 
     return template.format(df_result.shape[0], price_min, price_max, city)
 
-def list_house(parameters, context):
+def list_house(parameters, contexts):
+    context = None
+
+    for each in contexts:
+        if "show_all-city-followup" in each["name"]:
+            context = each
+            break
+
     prices = context["parameters"]["number"]
     city = context["parameters"]["geo-city"]
 
@@ -147,6 +149,7 @@ app = Flask(__name__)
 path_data = "houses.csv"
 path_data = os.path.abspath(os.path.dirname(__file__)) + "/" + path_data
 df_data = load_df(path_data)
+avaliable_columns = set(['CITY', 'PRICE', 'SQUARE FEET', 'YEAR BUILT'])
 
 @app.route("/", methods=["POST", "GET"])
 def main_entry():
@@ -169,7 +172,7 @@ def main_entry():
     context = None
 
     if "outputContexts" in request_body["queryResult"]:
-        context = request_body["queryResult"]["outputContexts"][0]
+        context = request_body["queryResult"]["outputContexts"]
 
     result = handler(parameters, context)
 
