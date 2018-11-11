@@ -127,11 +127,11 @@ def list_house(parameters, contexts):
     for index, row in df_result.iterrows():
         result.append(present_single_house(row))
 
-    template = "They are:\n{}\nDo you want to save them?"
+    template = "They are:{} Do you want to save them?"
 
     tmp_str = ""
-    for i, each in enumerate(result):
-        tmp_str += "#{}. {}\n".format(i, each)
+    for i, each in enumerate(result, 1):
+        tmp_str += "#{}: {}. ".format(i, each)
 
     return template.format(tmp_str)
 
