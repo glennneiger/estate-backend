@@ -63,7 +63,7 @@ def present_single_house(df):
     template = "{} with {} square feet, costs ${}, built in {}"
     return template.format(df["ADDRESS"], df["SQUARE FEET"], df["PRICE"], int(df["YEAR BUILT"]))
 
-def show_all(_, _):
+def show_all(parameters, context):
     """
     List all houses info
     1. number of avaliable houses
@@ -82,7 +82,7 @@ def show_all(_, _):
 
     return template_response.format(total_num, str_columns)
 
-def show_city(parameters, _):
+def show_city(parameters, context):
     city = parameters["geo-city"]
     result = query_cities(city)
 
