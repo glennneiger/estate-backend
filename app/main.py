@@ -9,8 +9,6 @@ import pandas as pd
 def load_df(path):
     return pd.read_csv(path)
 
-def load_file()
-
 def make_fulliment(data):
     if type(data) != str:
         data = str(data)
