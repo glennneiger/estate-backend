@@ -1,1 +1,9 @@
-use this file for user instructions
+I used Heroku to deploy this repo.
+
+To run locally:
+
+```
+cd path/to/this/dir
+export FLASK_APP=__init__.py
+flask run
+```
