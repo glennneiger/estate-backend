@@ -2,11 +2,14 @@
 
 from flask import Flask, request, make_response, jsonify
 
+import os
 import json
 import pandas as pd
 
 def load_df(path):
     return pd.read_csv(path)
+
+def load_file()
 
 def make_fulliment(data):
     if type(data) != str:
@@ -144,6 +147,7 @@ app = Flask(__name__)
 
 # Load data
 path_data = "./houses.csv"
+path_data = os.path.abspath(path_data)
 df_data = load_df(path_data)
 
 @app.route("/", methods=["POST", "GET"])
