@@ -67,7 +67,6 @@ def show_all(parameters, context):
     """
     List all houses info
     1. number of avaliable houses
-    2. List attributes
     """
     # template for response
     template_response = "Hello! There are currently {} houses on list. Which city are you interested in?"
@@ -78,6 +77,9 @@ def show_all(parameters, context):
     return template_response.format(total_num)
 
 def show_city(parameters, context):
+    """
+    Show all the cities
+    """
     city = parameters["geo-city"]
     result = query_cities(city)
 
@@ -90,6 +92,9 @@ def show_city(parameters, context):
     return template.format(result)
 
 def show_within_price(parameters, contexts):
+    """
+    Show number of houses found in the given city, within given price range
+    """
     context = list(filter(lambda x: "show_all-city-followup" in x["name"], contexts))[0]
 
     city = context["parameters"]["geo-city"]
@@ -108,6 +113,9 @@ def show_within_price(parameters, contexts):
     return template.format(df_result.shape[0], price_min, price_max, city)
 
 def list_house(parameters, contexts):
+    """
+    List all the houses in the given city, within given price range
+    """
     context = list(filter(lambda x: "show_all-city-followup" in x["name"], contexts))[0]
 
     prices = context["parameters"]["number"]
@@ -157,6 +165,7 @@ def main_entry():
     if len(request_body) == 0:
         return make_fulliment("Some thing went wrong! Emtpy request received!")
 
+    # parse request as JSON
     request_body = json.loads(request_body)
 
     # get intent name
@@ -167,12 +176,12 @@ def main_entry():
     # execute the intent
     parameters = request_body["queryResult"]["parameters"]
     context = None
-
     if "outputContexts" in request_body["queryResult"]:
         context = request_body["queryResult"]["outputContexts"]
 
     result = handler(parameters, context)
 
+    # return the result (string in json format)
     return make_fulliment(result)
 
    
